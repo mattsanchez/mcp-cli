@@ -98,6 +98,9 @@ export function formatServerDetails(
   if (isHttpServer(config)) {
     lines.push(`${color('Transport:', colors.bold)} HTTP`);
     lines.push(`${color('URL:', colors.bold)} ${config.url}`);
+    if (config.tls) {
+      lines.push(`${color('TLS:', colors.bold)} configured`);
+    }
   } else {
     lines.push(`${color('Transport:', colors.bold)} stdio`);
     lines.push(

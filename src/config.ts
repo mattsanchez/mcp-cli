@@ -5,6 +5,7 @@
 import { existsSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join, resolve } from 'node:path';
+import type { TLSOptions } from 'bun';
 import {
   ErrorCode,
   configInvalidJsonError,
@@ -32,6 +33,7 @@ export interface HttpServerConfig {
   url: string;
   headers?: Record<string, string>;
   timeout?: number;
+  tls?: TLSOptions;
 }
 
 export type ServerConfig = StdioServerConfig | HttpServerConfig;

@@ -5,8 +5,8 @@
  * They require npx and @modelcontextprotocol/server-filesystem to be available.
  */
 
-import { describe, test, expect, beforeAll, afterAll } from 'bun:test';
-import { mkdtemp, writeFile, rm, mkdir } from 'node:fs/promises';
+import { afterAll, beforeAll, describe, expect, test } from 'bun:test';
+import { mkdir, mkdtemp, realpath, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { $ } from 'bun';
@@ -19,6 +19,7 @@ describe('CLI Integration Tests', () => {
   beforeAll(async () => {
     // Create temp directory for test files
     tempDir = await mkdtemp(join(tmpdir(), 'mcp-cli-integration-'));
+    tempDir = await realpath(tempDir);
 
     // Create a test file to read
     testFilePath = join(tempDir, 'test.txt');
@@ -40,7 +41,7 @@ describe('CLI Integration Tests', () => {
             args: ['-y', '@modelcontextprotocol/server-filesystem', tempDir],
           },
         },
-      })
+      }),
     );
   });
 
@@ -50,7 +51,7 @@ describe('CLI Integration Tests', () => {
 
   // Helper to run CLI commands
   async function runCli(
-    args: string[]
+    args: string[],
   ): Promise<{ stdout: string; stderr: string; exitCode: number }> {
     const cliPath = join(import.meta.dir, '..', '..', 'src', 'index.ts');
 
@@ -322,7 +323,7 @@ describe('HTTP Transport Integration Tests', () => {
             url: 'https://mcp.deepwiki.com/mcp',
           },
         },
-      })
+      }),
     );
   });
 
@@ -332,7 +333,7 @@ describe('HTTP Transport Integration Tests', () => {
 
   // Helper to run CLI commands with HTTP config
   async function runCli(
-    args: string[]
+    args: string[],
   ): Promise<{ stdout: string; stderr: string; exitCode: number }> {
     const cliPath = join(import.meta.dir, '..', '..', 'src', 'index.ts');
 

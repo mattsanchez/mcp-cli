@@ -242,6 +242,26 @@ The CLI uses `mcp_servers.json`, compatible with Claude Desktop, Gemini or VS Co
       "url": "https://mcp.example.com",
       "headers": {
         "Authorization": "Bearer ${TOKEN}"
+      },
+      "tls": {
+        "rejectUnauthorized": false
+      }
+    }
+  }
+}
+```
+
+### TLS for HTTP Servers
+
+For self-signed certificates, configure TLS per server using the `tls` field. This is passed to Bun's `fetch` and only affects that server.
+
+```json
+{
+  "mcpServers": {
+    "internal-mcp": {
+      "url": "https://mcp.internal.example/mcp",
+      "tls": {
+        "rejectUnauthorized": false
       }
     }
   }

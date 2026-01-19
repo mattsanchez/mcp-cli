@@ -6,6 +6,7 @@ import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 import type { Tool } from '@modelcontextprotocol/sdk/types.js';
+import type { TLSOptions } from 'bun';
 import {
   type HttpServerConfig,
   type ServerConfig,
@@ -273,10 +274,13 @@ function createHttpTransport(
 ): StreamableHTTPClientTransport {
   const url = new URL(config.url);
 
+  const requestInit: RequestInit & { tls?: TLSOptions } = {
+    headers: config.headers,
+    tls: config.tls,
+  };
+
   return new StreamableHTTPClientTransport(url, {
-    requestInit: {
-      headers: config.headers,
-    },
+    requestInit,
   });
 }
 
